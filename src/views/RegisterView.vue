@@ -1,10 +1,12 @@
 <template>
     <div>
-        <h1>Login</h1>
-        <form @submit.prevent="handleLogin">
+        <h1>Register</h1>
+        <form @submit.prevent="handleRegister">
+            <input type="text" v-model="firstName" placeholder="firstName" required/>
+            <input type="text" v-model="lastName" placeholder="lastName" required/>
             <input type="email" v-model="email" placeholder="Email" required/>
             <input type="password" v-model="password" placeholder="Password" required/>
-            <button type="submit">Login</button>
+            <button type="submit">Register</button>
         </form>
         <p v-if="error">{{ error }}</p>
     </div>
@@ -18,23 +20,28 @@ import api from "@/services/axios";
 export default{
     data(){
         return{
+            firstName: "",
+            lastName: "",
             email: "",
             password: "",
             error: "",
         };
     },
     methods: {
-        async handleLogin(){
+        async handleRegister(){
             try{
-                const response = await api.post("/account/login",{
+                const response = await api.post("/account/register",{
                     email: this.email,
                     password: this.password,
+                    first_name: this.firstName.replaceAll(" ", ""),
+                    last_name: this.lastName.replaceAll(" ", "")
                 });
 
                 localStorage.setItem("my_access_token", response.data.access_token);
                 localStorage.setItem("my_refresh_token", response.data.refresh_token);
                 localStorage.setItem("my_uid", response.data.user_id);
 
+                //this.$router.push("/dashboard");
                 window.location.href = "/dashboard";
 
             } catch (error) {

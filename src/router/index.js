@@ -2,15 +2,19 @@ import Vue from "vue";
 import Router from "vue-router";
 import Login from "@/views/LoginView.vue";
 import Dashboard from "@/views/PageDashboard.vue";
+import MainPage from "@/views/MainPage.vue";
+import Register from "@/views/RegisterView.vue"
 
 const router = new Router({
   mode: "history",
   routes: [
-    { path: "/", redirect: "/login" },
+    { path: "/", redirect: "/main" },
+    { path: "/main", component: MainPage },
     { path: "/login", component: Login },
-    { 
-      path: "/dashboard", 
-      component: Dashboard, 
+    { path: "/register", component: Register },
+    {
+      path: "/dashboard",
+      component: Dashboard,
       meta: { requiresAuth: true },
     },
   ],
