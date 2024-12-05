@@ -1,12 +1,12 @@
 <template>
     <header>
-        <h1>Task Manager</h1>
+        <div class="button" @click.prevent="goToDashboardPage()">Dashboard</div>
         <template v-if="Authorized">
             <div class="button" @click.prevent="logout">Logout</div>
         </template>
         <template v-else>
-            <a href="/login" class="button">Login</a>
-            <a href="/register" class="button">Register</a>
+            <div class="button" @click.prevent="goToLoginPage()">Login</div>
+            <div class="button" @click.prevent="goToRegisterPage()">Register</div>
         </template>
     </header>
 </template>
@@ -17,10 +17,25 @@ import api from "@/services/axios";
 export default {
     data() {
         return{
-            isAuthorized: Boolean(localStorage.getItem("my_access_token"))
+            isAuthorized: Boolean(localStorage.getItem("my_access_token")),
         }
     },
     methods: {
+        goToLoginPage(){
+            if(this.$route.path !== "/login")
+            {
+                this.$router.push("/login");
+            }
+        },
+        goToRegisterPage(){
+            if(this.$route.path !== "/register")
+            {   
+                this.$router.push("/register");
+            }
+        },
+        goToDashboardPage(){
+            window.location.href = "/dashboard";
+        },
         async logout() {
             try{
                 await api.post("/account/logout", {
@@ -38,7 +53,8 @@ export default {
                     localStorage.removeItem("my_uid");
 
                     // Redirect to login
-                    this.$router.push("/login");
+                    //this.$router.push("/login");
+                    window.location.href = "/main";
             }
         }
     },

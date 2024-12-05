@@ -5,7 +5,13 @@
             <input type="text" v-model="firstName" placeholder="firstName" required/>
             <input type="text" v-model="lastName" placeholder="lastName" required/>
             <input type="email" v-model="email" placeholder="Email" required/>
-            <input type="password" v-model="password" placeholder="Password" required/>
+            <input 
+            type="password" 
+            v-model="password" 
+            placeholder="Password"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+            title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" 
+            required/>
             <button type="submit">Register</button>
         </form>
         <p v-if="error">{{ error }}</p>

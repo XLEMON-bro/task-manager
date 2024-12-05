@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header/>
+    <h1>Task Manager</h1>
     <router-view />
   </div>
 </template>
