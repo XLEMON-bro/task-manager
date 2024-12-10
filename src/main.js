@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import api from "@/services/axios"
+import store from '@/store/index.js'
 
 Vue.config.productionTip = false
 
@@ -31,7 +32,8 @@ const refreshToken = async () => {
 
 refreshToken().finally(() => {
   new Vue({
-    router,
+    router: router,
+    store: store,
     render: (h) => h(App),
   }).$mount("#app");
 });
