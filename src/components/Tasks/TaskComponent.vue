@@ -8,17 +8,23 @@
             {{ title }}
         </h2>
         <div class="description">
-            <P v-html="taskDescription"></p>
+            <p v-html="taskDescription"></p>
         </div>
+        <PenComponent @edit-task="editTask(taskId)"/>
     </div>
 </template>
 
 <script>
+import PenComponent from '@/components/UI/PenIcon.vue'
+
 export default {
     data(){
         return{
-
+            taskEditing: false,
         };
+    },
+    components: {
+        PenComponent,
     },
     props: {
         title: String,
@@ -29,6 +35,11 @@ export default {
     methods: {
         removeTask(id){
             this.$store.dispatch('task/removeTaskById', id);
+        },
+        editTask(id){
+            //add logic for task editing
+            this.taskEditing = true;
+            console.log('custom event from edit for task ' + id);
         }
     },
     computed: {
@@ -66,12 +77,12 @@ export default {
 
     .cancel{
         position: absolute;
-        top: 2px;
-        right: 5px;
+        top: 4px;
+        right: 4px;
         background: transparent;    // Transparent background
         border: none;               // No border
         color: #000;                // Black color for "X"
-        font-size: 16px;            // Font size for visibility
+        font-size: 20px;            // Font size for visibility
         cursor: pointer;            // Pointer cursor for interactivity
         font-weight: bold;
 
@@ -83,11 +94,19 @@ export default {
     h2{
         margin-top: 20px;
         margin-bottom: 5px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
 
     p{
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin-top: 0px;
+        margin-bottom: 5px;
+    }
+
+    .description{
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
     }
 
     .status{

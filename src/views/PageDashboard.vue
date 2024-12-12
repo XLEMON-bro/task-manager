@@ -58,10 +58,10 @@
   background-color: #f5f5f5;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 10px;
+  gap: 15px;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  padding: 15px;
   margin-left: 15px;
   margin-right: 15px;
 }
