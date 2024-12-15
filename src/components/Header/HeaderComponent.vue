@@ -1,18 +1,20 @@
 <template>
-    <header>
-        <div class="button" @click.prevent="goToDashboardPage()">Dashboard</div>
+    <header class="header">
+        <HeaderLink to="/main" text="Main Page"/>
+        <HeaderLink to="/dashboard" text="Dashboard"/>
         <template v-if="Authorized">
-            <div class="button" @click.prevent="logout">Logout</div>
-        </template>
-        <template v-else>
-            <div class="button" @click.prevent="goToLoginPage()">Login</div>
-            <div class="button" @click.prevent="goToRegisterPage()">Register</div>
-        </template>
+               <div class="button" @click.prevent="logout">Logout</div>
+         </template>
+         <template v-else>
+              <HeaderLink to="/login" text="Login"/>
+              <HeaderLink to="/register" text="Register"/>
+          </template>
     </header>
 </template>
 
 <script>
 import api from "@/services/axios";
+import HeaderLink from "./HeaderLink.vue";
 
 export default {
     data() {
@@ -20,22 +22,10 @@ export default {
             isAuthorized: Boolean(localStorage.getItem("my_access_token")),
         }
     },
+    components: {
+        HeaderLink,
+    },
     methods: {
-        goToLoginPage(){
-            if(this.$route.path !== "/login")
-            {
-                this.$router.push("/login");
-            }
-        },
-        goToRegisterPage(){
-            if(this.$route.path !== "/register")
-            {   
-                this.$router.push("/register");
-            }
-        },
-        goToDashboardPage(){
-            window.location.href = "/dashboard";
-        },
         async logout() {
             try{
                 await api.post("/account/logout", {
@@ -79,18 +69,36 @@ export default {
 
 <style lang="scss" scoped>
 
+.header{
+    display: flex;
+    font-size: 1.5rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+    border-bottom: black 1px solid;
+    position: relative;
+}
+
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: black;
     text-decoration: none;
-    border-radius: 5px;
     text-align: center;
+    vertical-align: middle;
+    padding-left: 4px;
+    padding-right: 4px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .button:hover {
-    background-color: #0056b3;
+    background-color: black;
+    color: white;
+    cursor: pointer;
 }
 
 </style>
