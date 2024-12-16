@@ -1,5 +1,5 @@
 <template>
-    <i @click="$emit('edit-task')" class="fa fa-edit"></i>
+    <i @click="$emit('edit-icon-clicked')" class="fa fa-edit"></i>
 </template>
 
 <script>

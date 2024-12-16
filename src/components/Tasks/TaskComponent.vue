@@ -1,21 +1,33 @@
 <template>
-    <div class="task">
-        <button @click="removeTask(taskId)" class="button cancel">&times;</button>
-        <div class="status">
-            <div :class=" taskDone ? 'done' : 'todo'">{{ taskDone ? 'Done' : 'To-do' }}</div>
+    <div>
+        <div class="task">
+            <button @click="removeTask(taskId)" class="button cancel">&times;</button>
+            <div class="status">
+                <div :class=" taskDone ? 'done' : 'todo'">{{ taskDone ? 'Done' : 'To-do' }}</div>
+            </div>
+            <h2>
+                {{ title }}
+            </h2>
+            <div class="description">
+                <p v-html="taskDescription"></p>
+            </div>
+            <PenComponent @edit-icon-clicked="taskEditing=true"/>
         </div>
-        <h2>
-            {{ title }}
-        </h2>
-        <div class="description">
-            <p v-html="taskDescription"></p>
-        </div>
-        <PenComponent @edit-task="editTask(taskId)"/>
+        <OverlayComponent 
+        @close="taskEditing=false" 
+        v-show="taskEditing" 
+        component-action="update"
+        :taks-id="this.taskId"
+        :initial-description="this.taskDescription"
+        :initial-title="this.title"
+        :initial-done="this.taskDone"
+        @updateTask="updateTask"/>
     </div>
 </template>
 
 <script>
 import PenComponent from '@/components/UI/PenIcon.vue'
+import OverlayComponent from './OverlayComponent.vue';
 
 export default {
     data(){
@@ -25,10 +37,11 @@ export default {
     },
     components: {
         PenComponent,
+        OverlayComponent,
     },
     props: {
         title: String,
-        taskId: Number,
+        taskId: String,
         taskDescription: String,
         done: Boolean,
     },
@@ -36,10 +49,11 @@ export default {
         removeTask(id){
             this.$store.dispatch('task/removeTaskById', id);
         },
-        editTask(id){
+        updateTask(task){
             //add logic for task editing
-            this.taskEditing = true;
-            console.log('custom event from edit for task ' + id);
+            this.$store.dispatch('task/updateTask', task);
+            this.taskEditing = false;
+            console.log('custom event from update for task ' + task.id);
         }
     },
     computed: {
